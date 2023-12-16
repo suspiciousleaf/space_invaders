@@ -1,7 +1,8 @@
 from turtle import Screen
 import time
+import random
 from player import Player
-from aliens import AlienManager
+from alien_manager import AlienManager
 from scoreboard import Scoreboard
 from player_bullet import PlayerBullet
 
@@ -52,6 +53,10 @@ while game_running:
     for bul in player_bullet.bullet:
         if bul.ycor() > 290:
             player_bullet.delete_bullet()
+
+    for alien in alien_manager.aliens:
+        if random.randint(0, 99) == 0:
+            alien_manager.kill_alien(alien)
 
 
 screen.exitonclick()

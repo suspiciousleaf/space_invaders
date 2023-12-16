@@ -42,6 +42,8 @@ class AlienManager:
     # Initialise the alien manager
     def __init__(self):
         self.aliens = []
+        self.dead_aliens = []
+        self.dead_timer = 0
         self.create_aliens()
         self.direction = 1
         self.steps_taken = 0
@@ -65,6 +67,8 @@ class AlienManager:
             y_cor -= 30
 
     def move(self):
+        self.process_dead()
+
         # Count the number of steps taken, and alternate the alien icon every 5 steps
         self.steps_taken += 1
         if self.steps_taken >= 5:
@@ -111,5 +115,15 @@ class AlienManager:
         return y_min <= -240
 
     def kill_alien(self, alien):
-        alien.hideturtle()
+        alien.shape(pop)
         self.aliens.remove(alien)
+        self.dead_aliens.append(alien)
+
+    def process_dead(self):
+        if len(self.dead_aliens):
+            self.dead_timer += 1
+            if self.dead_timer >= 5:
+                for dead_alien in self.dead_aliens:
+                    dead_alien.hideturtle()
+                    self.dead_aliens.remove(dead_alien)
+                self.dead_timer = 0
