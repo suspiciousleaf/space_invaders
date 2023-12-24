@@ -37,11 +37,10 @@ class PlayerBullet:
             self.bullet.append(new_bullet)
 
     def move(self):
-        if self.bullet_exists:
-            for bul in self.bullet:
-                bul.setpos(self.x_coord, bul.ycor() + MOVE_DISTANCE)
-                next_icon = next(self.bullet_icon_generator)
-                bul.shape(bullets[next_icon])
+        for bul in self.bullet:
+            bul.setpos(self.x_coord, bul.ycor() + MOVE_DISTANCE)
+            next_icon = next(self.bullet_icon_generator)
+            bul.shape(bullets[next_icon])
 
     def delete_bullet(self):
         for bul in self.bullet:

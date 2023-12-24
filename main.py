@@ -1,6 +1,5 @@
 from turtle import Screen
 import time
-import random
 from player import Player
 from alien_manager import AlienManager
 from scoreboard import Scoreboard
@@ -10,6 +9,7 @@ TICK_INTERVAL = 0.05
 
 # Setup screen
 screen = Screen()
+# tracer is used to prevent the screen constantly updating - instead updates are done manually once per game tick. Interval set above.
 screen.tracer(0)
 screen.setup(height=600, width=800)
 screen.listen()
@@ -29,15 +29,18 @@ screen.onkeyrelease(player.right_off, "Right")
 # Setup shoot input
 screen.onkeypress(lambda: player_bullet.fire_bullet(player.xcor()), " ")
 
+# Create alien manager
 alien_manager = AlienManager()
 
+# Create scoreboard
 scoreboard = Scoreboard()
 
 screen.update()
 
-
+# Variable to control game loop
 game_running = True
 
+# Establish game loop
 while game_running:
     time.sleep(TICK_INTERVAL)
     screen.update()
@@ -58,9 +61,17 @@ while game_running:
         if bul.ycor() > 290:
             player_bullet.delete_bullet()
 
-    for alien in alien_manager.aliens:
-        if random.randint(0, 99) == 0:
-            alien_manager.kill_alien(alien)
+    bullet_range = range(player_bullet.x_coord - 20, player_bullet.x_coord + 20)
+    aliens_in_path = [
+        alien for alien in alien_manager.aliens if alien.xcor() in bullet_range
+    ]
+    for alien in aliens_in_path:
+        if player_bullet.bullet_exists:
+            distance = alien.distance(player_bullet.bullet[0])
+            if distance <= 15:
+                alien_manager.kill_alien(alien)
+                player_bullet.delete_bullet()
+                scoreboard.increase_score()
 
 
 screen.exitonclick()
