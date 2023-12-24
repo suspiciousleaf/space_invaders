@@ -6,6 +6,9 @@ from alien_manager import AlienManager
 from scoreboard import Scoreboard
 from player_bullet import PlayerBullet
 
+TICK_INTERVAL = 0.05
+
+# Setup screen
 screen = Screen()
 screen.tracer(0)
 screen.setup(height=600, width=800)
@@ -17,12 +20,13 @@ player = Player()
 
 player_bullet = PlayerBullet()
 
+# Setup player movement inputs
 screen.onkeypress(player.left_on, "Left")
 screen.onkeyrelease(player.left_off, "Left")
 screen.onkeypress(player.right_on, "Right")
 screen.onkeyrelease(player.right_off, "Right")
 
-
+# Setup shoot input
 screen.onkeypress(lambda: player_bullet.fire_bullet(player.xcor()), " ")
 
 alien_manager = AlienManager()
@@ -35,7 +39,7 @@ screen.update()
 game_running = True
 
 while game_running:
-    time.sleep(0.05)
+    time.sleep(TICK_INTERVAL)
     screen.update()
     alien_manager.move()
     if player.right_move:
