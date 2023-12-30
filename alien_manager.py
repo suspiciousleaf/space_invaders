@@ -2,7 +2,7 @@ from turtle import Turtle, register_shape
 
 # Hard coded values for easy access
 MOVE_DISTANCE = 3
-DROP_DISTANCE = 20
+DROP_DISTANCE = 15
 BORDER_MARGIN = 50
 
 # Below are all of the icons to be imported
@@ -48,6 +48,7 @@ class AlienManager:
         self.direction = 1
         self.steps_taken = 0
         self.drops = 0
+        self.speed_multiplyer = 1
         self.descend = False
         self.border_margin = 400 - BORDER_MARGIN
 
@@ -83,6 +84,10 @@ class AlienManager:
             self.direction *= -1
             self.drops += 1
             self.descend = True
+            if self.drops >= 16:
+                self.speed_multiplyer = 2
+            elif self.drops >= 11:
+                self.speed_multiplyer = 1.5
 
         # If aliens have reached a border, all descend
         if self.descend:
@@ -93,7 +98,9 @@ class AlienManager:
             # Set new position for each alien on x axis
             for alien in self.aliens:
                 alien.setpos(
-                    alien.xcor() + (self.direction * MOVE_DISTANCE), alien.ycor()
+                    alien.xcor()
+                    + (self.direction * MOVE_DISTANCE * self.speed_multiplyer),
+                    alien.ycor(),
                 )
             self.border_margin = 350
 

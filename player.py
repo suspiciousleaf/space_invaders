@@ -1,6 +1,6 @@
 from turtle import Turtle, register_shape
 
-MOVE_DISTANCE = 5
+MOVE_DISTANCE = 7
 
 controller = "icons\\controller.gif"
 

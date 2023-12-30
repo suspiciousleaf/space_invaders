@@ -1,6 +1,6 @@
 from turtle import Turtle, register_shape
 
-MOVE_DISTANCE = 15
+MOVE_DISTANCE = 25
 
 bullets = [
     "icons\\invbullet.gif",
